@@ -1,0 +1,49 @@
+﻿MIS 40570 – Homework 1 – 12/10/2015
+Eoghan Aherne : 10307151 
+Goal: 	
+Using 2 sets of latitudes and longitudes with various levels of production at different Plants, choose which combination of Plant & Port minimizes the company’s costs.
+Assumptions:	
+(a) All roads are a straight line to the Port – therefore we can use Pythagoras’ theorem for distance between the Ports.
+(b) The cost of transport is €1/unit regardless of where it was produced – all combinations of Plant/Port are equally efficient.
+
+Method:
+Use the sqlite3 library to connect to the database.
+Create dataframes using Pandas library.
+Create arrays using Numpy library.
+Create costs array which gives every possible cost by looping through every combination of Port and Plant while creating an index at the same time.
+Print a statement with the lowest cost and with which combination of Plant and Port this was achieved with.
+All code has been appropriately labelled on Github - cut out below so as to be below the 500 word limit.
+
+Solution:
+import numpy as np #import numpy
+import pandas as pd # import pandas
+import sqlite3 # import sqlite
+
+conn = sqlite3.connect('renewable.db')
+
+location=("SELECT * FROM location;") 
+ports=("SELECT * FROM ports;") 
+
+costs=[] 
+locations=[] 
+portslocation =[] 
+
+df=pd.io.sql.read_sql(location,conn) 
+df2=pd.io.sql.read_sql(ports,conn) 
+
+LocationLatitude=np.array( df.iloc[0:9,0]) 
+LocationLongitude=np.array( df.iloc[0:9,1]) 
+LocationProduction=np.array( df.iloc[0:9,2]) 
+
+PortsLatitude=np.array (df2.iloc[0:9,0]) 
+PortsLongitude=np.array( df2.iloc[0:9,1])
+for i in range(len(LocationLatitude)): 
+    for x in range(len(PortsLatitude)): 
+        costs.append((((LocationLatitude[i] - PortsLatitude[x])**2+ \
+        (LocationLongitude[i]-PortsLongitude[x])**2)**(0.5))* \
+        LocationProduction[i]) 
+	locations.append(i+1) 
+        portslocation.append(x+1) 
+
+print "The location that gives the lowest transport costs is Location " + str(locations[np.argmin(costs)]) + " and Port " + str( portslocation[np.argmin(costs)]) + " giving a total cost of €"+ str( costs[np.argmin(costs)])
+
