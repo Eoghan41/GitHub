@@ -21,7 +21,9 @@ portslocation =[] #create an empty array 'portlocations'
 df=pd.io.sql.read_sql(location,conn) # crate a dataframe named 'df' with the Pandas library 'read_sql' with location and conn as the parameters
 df2=pd.io.sql.read_sql(ports,conn) # crate a dataframe named 'df2' with the Pandas library 'read_sql' with ports and conn as the parameters
 
-col=df.as_matrix() # create matrix out of dataframes
-col2=df2.as_matrix()
-#print col # look at what the matrices look like
-#print col2
+LocationLatitude=np.array( df.iloc[0:9,0]) # create an array 'LocationLatitude' with the Numpy libray, consisting of the first 0 to 9 rows of the 0th row of the dataframe 'df'
+LocationLongitude=np.array( df.iloc[0:9,1]) # create an array 'LocationLongitude' with the Numpy libray, consisting of the first 0 to 9 rows of the 1st row of the dataframe 'df'
+LocationProduction=np.array( df.iloc[0:9,2]) # create an array 'LocationProduction' with the Numpy libray, consisting of the first 0 to 9 rows of the 2nd row of the dataframe 'df'
+
+PortsLatitude=np.array (df2.iloc[0:9,0]) #  create an array 'PortsLatitude' with the Numpy libray, consisting of the first 0 to 9 rows of the 0th row of the dataframe 'df2'
+PortsLongitude=np.array( df2.iloc[0:9,1])# create an array 'PortsLongitude' with the Numpy libray, consisting of the first 0 to 9 rows of the 1st row of the dataframe 'df2'
